@@ -1,18 +1,32 @@
-## My Project
+# aws-web3-http-provider
 
-TODO: Fill this README out!
+This is an npm package that takes care of Signature Version 4 authentication
+when using web3 library with Ethereum nodes on
+[Amazon Managed Blockchain](https://aws.amazon.com/managed-blockchain/).
 
-Be sure to:
+## Installing
 
-* Change the title in this README
-* Edit your repository description on GitHub
-* Write in your license below and create a LICENSE file
+`npm install aws-web3-http-provider --save`
+
+## Example
+
+```
+import Web3 from 'web3';
+import AWSHttpProvider from 'aws-web3-http-provider';
+const endpoint = process.env.AMB_HTTP_ENDPOINT
+const web3 = new Web3(new AWSHttpProvider(endpoint));
+web3.eth.getNodeInfo().then(console.log);
+```
+
+## Testing
+
+To test this package, follow the instructions in `test/README`.
 
 ## Security
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more
+information.
 
 ## License
 
-This library is licensed under the LICENSE NAME HERE License.
-
+This library is licensed under the [LGPL-3.0 License](LICENSE).

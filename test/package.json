@@ -1,0 +1,17 @@
+{
+  "name": "npmtest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js"
+  },
+  "author": "Carl Youngblood",
+  "license": "LGPL-3.0-or-later",
+  "type": "module",
+  "dependencies": {
+    "web3": "^1.3.4",
+    "web3-providers-http": "^1.3.4",
+    "aws-web3-http-provider": "file:.."
+  }
+}
