@@ -22,8 +22,10 @@ as much information as you can. Details like these are incredibly useful:
 * Any modifications you've made relevant to the bug
 * Anything unusual about your environment or deployment
 
-## Contributing via Pull Requests Contributions via pull requests are much
-#appreciated. Before sending us a pull request, please ensure that:
+## Contributing via Pull Requests
+
+Contributions via pull requests are much appreciated. Before sending us a pull
+request, please ensure that:
 
 1. You are working against the latest source on the *main* branch.
 2. You check existing open, and recently merged, pull requests to make sure
@@ -49,7 +51,6 @@ repository](https://help.github.com/articles/fork-a-repo/) and [creating a pull
 request](https://help.github.com/articles/creating-a-pull-request/).
 
 ## Finding contributions to work on
-
 
 Looking at the existing issues is a great way to find something to contribute
 on. As our projects, by default, use the #default GitHub issue labels
