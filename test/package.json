@@ -8,10 +8,9 @@
   },
   "author": "Carl Youngblood",
   "license": "LGPL-3.0-or-later",
-  "type": "module",
   "dependencies": {
+    "aws-web3-http-provider": "file:..",
     "web3": "^1.3.5-rc.0",
-    "web3-providers-http": "^1.3.5-rc.0",
-    "aws-web3-http-provider": "file:.."
+    "web3-providers-http": "^1.3.5-rc.0"
   }
 }

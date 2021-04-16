@@ -6,11 +6,32 @@
 // https://github.com/ethereum/web3.js
 /////////////////////////////////////////////////////
 
-import AWS from 'aws-sdk';
-import HttpProvider from 'web3-providers-http';
-import XHR2 from 'xhr2';
+const AWS = require('aws-sdk');
+const HttpProvider = require('web3-providers-http');
+const XHR2 = require('xhr2');
 
-export default class AWSHttpProvider extends HttpProvider {
+const validateCredentials = (credentials) => {
+  let valid = true;
+
+  //ensure the provided object has property accessKeyId
+  if (!credentials.hasOwnProperty('accessKeyId')) valid = false
+  //ensure the provided object has property secretAccessKey
+  if (!credentials.hasOwnProperty('secretAccessKey')) valid = false
+  //ensure accessKeyId is not undefined or empty
+  if (credentials.accessKeyId == undefined || credentials.accessKeyId === "") valid = false
+  //ensure secretAccessKey is not undefined or empty
+  if (credentials.secretAccessKey == undefined || credentials.secretAccessKey === "") valid = false
+  
+
+  return valid;
+}
+
+module.exports = class AWSHttpProvider extends HttpProvider {
+  constructor(host, ssmCredentials) {
+      super(host)
+      this.ssmCredentials = ssmCredentials || false;
+  }
+
   send(payload, callback) {
     const self = this;
     const request = new XHR2(); // eslint-disable-line
@@ -49,7 +70,13 @@ export default class AWSHttpProvider extends HttpProvider {
     try {
       const strPayload = JSON.stringify(payload);
       const region = process.env.AWS_DEFAULT_REGION || 'us-east-1';
-      let credentials = new AWS.EnvironmentCredentials('AWS');
+      let credentials
+      if (!!this.ssmCredentials) {
+        if (!validateCredentials(this.ssmCredentials)) throw 'Invalid Credentials: Check that your AWS credentials match the standard format';
+        credentials = new AWS.Credentials(this.ssmCredentials);
+      } else {
+        credentials = new AWS.EnvironmentCredentials('AWS');
+      }
       const endpoint = new AWS.Endpoint(self.host);
       const req = new AWS.HttpRequest(endpoint, region);
       req.method = request._method;
@@ -59,13 +86,15 @@ export default class AWSHttpProvider extends HttpProvider {
       signer.addAuthorization(credentials, new Date());
       request.setRequestHeader('Authorization', req.headers['Authorization']);
       request.setRequestHeader('X-Amz-Date', req.headers['X-Amz-Date']);
-      if (process.env.AWS_SESSION_TOKEN) {
-        request.setRequestHeader('X-Amz-Security-Token', process.env.AWS_SESSION_TOKEN);
-      }
       request.send(strPayload);
     } catch (error) {
-      callback(`[aws-ethjs-provider-http] CONNECTION ERROR: Couldn't connect to node '${self.host}': ` +
-        `${JSON.stringify(error, null, 2)}`, null);
+        if (error.code == "ERR_INVALID_ARG_TYPE") {
+            callback(`[aws-ethjs-provider-http] CONNECTION ERROR: Couldn't connect to node '${self.host}': missing AWS credentials. Check your environment variables using command 'echo $NODE_ENV' to verify credentials are set.`)
+        } else {
+            callback(`[aws-ethjs-provider-http] CONNECTION ERROR: Couldn't connect to node '${self.host}': ` +
+            `${JSON.stringify(error, null, 2)}`, null);
+        }
+      
     }
   }
 }
