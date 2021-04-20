@@ -10,26 +10,10 @@ const AWS = require('aws-sdk');
 const HttpProvider = require('web3-providers-http');
 const XHR2 = require('xhr2');
 
-const validateCredentials = (credentials) => {
-  let valid = true;
-
-  //ensure the provided object has property accessKeyId
-  if (!credentials.hasOwnProperty('accessKeyId')) valid = false
-  //ensure the provided object has property secretAccessKey
-  if (!credentials.hasOwnProperty('secretAccessKey')) valid = false
-  //ensure accessKeyId is not undefined or empty
-  if (credentials.accessKeyId == undefined || credentials.accessKeyId === "") valid = false
-  //ensure secretAccessKey is not undefined or empty
-  if (credentials.secretAccessKey == undefined || credentials.secretAccessKey === "") valid = false
-  
-
-  return valid;
-}
-
 module.exports = class AWSHttpProvider extends HttpProvider {
   constructor(host, ssmCredentials) {
-      super(host)
-      this.ssmCredentials = ssmCredentials || false;
+    super(host)
+    this.ssmCredentials = ssmCredentials || {};
   }
 
   send(payload, callback) {
@@ -70,13 +54,12 @@ module.exports = class AWSHttpProvider extends HttpProvider {
     try {
       const strPayload = JSON.stringify(payload);
       const region = process.env.AWS_DEFAULT_REGION || 'us-east-1';
-      let credentials
-      if (!!this.ssmCredentials) {
-        if (!validateCredentials(this.ssmCredentials)) throw 'Invalid Credentials: Check that your AWS credentials match the standard format';
-        credentials = new AWS.Credentials(this.ssmCredentials);
-      } else {
-        credentials = new AWS.EnvironmentCredentials('AWS');
-      }
+      const creds =
+        'ssmCredentials' in this &&
+        'accessKeyId' in this.ssmCredentials &&
+        'secretAccessKey' in this.ssmCredentials &&
+        this.ssmCredentials;
+      const credentials = (creds && new AWS.Credentials(creds)) || new AWS.EnvironmentCredentials('AWS');
       const endpoint = new AWS.Endpoint(self.host);
       const req = new AWS.HttpRequest(endpoint, region);
       req.method = request._method;
@@ -86,6 +69,9 @@ module.exports = class AWSHttpProvider extends HttpProvider {
       signer.addAuthorization(credentials, new Date());
       request.setRequestHeader('Authorization', req.headers['Authorization']);
       request.setRequestHeader('X-Amz-Date', req.headers['X-Amz-Date']);
+      if (process.env.AWS_SESSION_TOKEN) {
+        request.setRequestHeader('X-Amz-Security-Token', process.env.AWS_SESSION_TOKEN);
+      }
       request.send(strPayload);
     } catch (error) {
         if (error.code == "ERR_INVALID_ARG_TYPE") {
