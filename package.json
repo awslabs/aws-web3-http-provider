@@ -1,6 +1,6 @@
 {
   "name": "aws-web3-http-provider",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0",
   "description": "Web3 HTTP provider for Amazon Managed Blockchain that handles AWS Signature Version 4 authentication",
   "main": "index.js",
   "scripts": {
@@ -15,12 +15,22 @@
       "name": "Carl Youngblood",
       "email": "cayblood@amazon.com",
       "url": "https://github.com/cayblood"
+    },
+    {
+      "name": "Forrest Colyer",
+      "email": "colyerf@amazon.com",
+      "url": "https://github.com/forrest-not-gump"
+    },
+    {
+      "name": "Everton Fraga",
+      "email": "effraga@amazon.com",
+      "url": "https://github.com/evertonfraga"
     }
   ],
   "license": "LGPL-3.0-or-later",
   "dependencies": {
     "aws-sdk": "^2.809.0",
-    "web3-providers-http": "^1.3.5-rc.0",
-    "xhr2": "^0.2.0"
+    "xhr2": "^0.2.0",
+    "web3-providers-http": "^1.3.5"
   }
 }
