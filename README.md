@@ -23,7 +23,7 @@ export AWS_SESSION_TOKEN=...
 ```
 const Web3 = require('web3');
 const AWSHttpProvider = require('aws-web3-http-provider');
-const endpoint = <your Amazon Managed Blockchain HTTP URL>
+const endpoint = 'https://nd-NODEID.ethereum.managedblockchain.REGION.amazonaws.com';
 const web3 = new Web3(new AWSHttpProvider(endpoint));
 web3.eth.getNodeInfo().then(console.log).then(() => {
   web3.currentProvider.connection.close();
@@ -59,7 +59,7 @@ const credentials = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 }
-const endpoint = <your Amazon Managed Blockchain HTTP URL>
+const endpoint = 'https://nd-NODEID.ethereum.managedblockchain.REGION.amazonaws.com';
 const baseProvider = new AWSHttpProvider(endpoint, credentials));
 let provider = new ethers.providers.Web3Provider(baseProvider);
 ```
