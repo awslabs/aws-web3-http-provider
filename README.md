@@ -25,9 +25,7 @@ const Web3 = require('web3');
 const AWSHttpProvider = require('aws-web3-http-provider');
 const endpoint = 'https://nd-NODEID.ethereum.managedblockchain.REGION.amazonaws.com';
 const web3 = new Web3(new AWSHttpProvider(endpoint));
-web3.eth.getNodeInfo().then(console.log).then(() => {
-  web3.currentProvider.connection.close();
-});
+web3.eth.getNodeInfo().then(console.log);
 ```
 
 You may also provide your credentials directly to the constructor arguments of a new instance of AWSHttpProvider():
@@ -41,9 +39,7 @@ const credentials = {
 }
 const endpoint = <your Amazon Managed Blockchain HTTP URL>
 const web3 = new Web3(new AWSHttpProvider(endpoint, credentials));
-web3.eth.getNodeInfo().then(console.log).then(() => {
-  web3.currentProvider.connection.close();
-});
+web3.eth.getNodeInfo().then(console.log);
 ```
 
 This reusable HTTP provider can be used to create a valid HTTP provider in the popular Ethers.js library:
