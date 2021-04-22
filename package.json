@@ -1,6 +1,6 @@
 {
   "name": "aws-web3-http-provider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Web3 HTTP provider for Amazon Managed Blockchain that handles AWS Signature Version 4 authentication",
   "main": "index.js",
   "scripts": {
