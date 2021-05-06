@@ -1,4 +1,4 @@
-# aws-web3-http-provider
+# @aws/web3-http-provider
 
 This is an npm package that takes care of Signature Version 4 authentication
 for HTTP connections to Ethereum nodes on
@@ -6,7 +6,7 @@ for HTTP connections to Ethereum nodes on
 
 ## Installing
 Install and save as a dependency using NPM:
-`npm install aws-web3-http-provider --save`
+`npm install @aws/web3-http-provider --save`
 
 ## Example
 
@@ -22,7 +22,7 @@ export AWS_SESSION_TOKEN=...
 
 ```
 const Web3 = require('web3');
-const AWSHttpProvider = require('aws-web3-http-provider');
+const AWSHttpProvider = require('@aws/web3-http-provider');
 const endpoint = 'https://nd-NODEID.ethereum.managedblockchain.REGION.amazonaws.com';
 const web3 = new Web3(new AWSHttpProvider(endpoint));
 web3.eth.getNodeInfo().then(console.log);
@@ -31,7 +31,7 @@ web3.eth.getNodeInfo().then(console.log);
 You may also provide your credentials directly to the constructor arguments of a new instance of AWSHttpProvider():
 ```
 const Web3 = require('web3');
-const AWSHttpProvider = require('aws-web3-http-provider');
+const AWSHttpProvider = require('@aws/web3-http-provider');
 
 const credentials = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
@@ -49,7 +49,7 @@ In your project's root directory, install ethers:
 
 ```
 const ethers = require('ethers');
-const AWSHttpProvider = require('aws-web3-http-provider');
+const AWSHttpProvider = require('@aws/web3-http-provider');
 
 const credentials = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
