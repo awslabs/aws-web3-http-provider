@@ -56,7 +56,7 @@ const credentials = {
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 }
 const endpoint = 'https://nd-NODEID.ethereum.managedblockchain.REGION.amazonaws.com';
-const baseProvider = new AWSHttpProvider(endpoint, credentials));
+const baseProvider = new AWSHttpProvider(endpoint, credentials);
 let provider = new ethers.providers.Web3Provider(baseProvider);
 ```
 
