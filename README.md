@@ -12,7 +12,7 @@ Install and save as a dependency using NPM:
 ## Example
 
 This example assumes that your AWS IAM credentials have been set
-previously using one of the methods speficied in
+previously using one of the methods specified in
 [Setting Credentials in Node.js](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-credentials-node.html).
 For example, using environment variables:
 
