@@ -1,10 +1,13 @@
-/////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 // Authored by Carl Youngblood
 // Senior Blockchain Solutions Architect, AWS
 // Adapted from web3 npm package v1.3.0
 // licensed under GNU Lesser General Public License
 // https://github.com/ethereum/web3.js
-/////////////////////////////////////////////////////
+// 
+// Nov 2021 pravinva 
+// Use credential provider chain to get credentials
+///////////////////////////////////////////////////////////
 
 const AWS = require('aws-sdk');
 const HttpProvider = require('web3-providers-http');
@@ -59,21 +62,26 @@ module.exports = class AWSHttpProvider extends HttpProvider {
         'accessKeyId' in this.ssmCredentials &&
         'secretAccessKey' in this.ssmCredentials &&
         this.ssmCredentials;
-      const credentials = (creds && new AWS.Credentials(creds)) || new AWS.EnvironmentCredentials('AWS');
-      const endpoint = new AWS.Endpoint(self.host);
-      const req = new AWS.HttpRequest(endpoint, region);
-      req.method = request._method;
-      req.body = strPayload;
-      req.headers['host'] = request._url.host;
-      const signer = new AWS.Signers.V4(req, 'managedblockchain');
-      signer.addAuthorization(credentials, new Date());
-      request.setRequestHeader('Authorization', req.headers['Authorization']);
-      request.setRequestHeader('X-Amz-Date', req.headers['X-Amz-Date']);
-      if (process.env.AWS_SESSION_TOKEN) {
-        request.setRequestHeader('X-Amz-Security-Token', process.env.AWS_SESSION_TOKEN);
-      }
-      request.send(strPayload);
-    } catch (error) {
+      
+      const chain = new AWS.CredentialProviderChain(AWS.CredentialProviderChain.defaultProviders);
+      chain.resolve((err, cred)=>{
+	AWS.config.credentials = cred;
+        const credentials = (creds && new AWS.Credentials(creds)) || AWS.config.credentials;
+        const endpoint = new AWS.Endpoint(self.host);
+        const req = new AWS.HttpRequest(endpoint, region);
+        req.method = request._method;
+        req.body = strPayload;
+        req.headers['host'] = request._url.host;
+        const signer = new AWS.Signers.V4(req, 'managedblockchain');
+        signer.addAuthorization(credentials, new Date());
+        request.setRequestHeader('Authorization', req.headers['Authorization']);
+        request.setRequestHeader('X-Amz-Date', req.headers['X-Amz-Date']);
+        if (AWS.config.credentials.sessionToken) {
+          request.setRequestHeader('X-Amz-Security-Token', AWS.config.credentials.sessionToken);
+        }  
+        request.send(strPayload); 
+         }) //resolve credential chain
+       } catch (error) {
         if (error.code == "ERR_INVALID_ARG_TYPE") {
             callback(`[aws-ethjs-provider-http] CONNECTION ERROR: Couldn't connect to node '${self.host}': missing AWS credentials. Check your environment variables using command 'echo $NODE_ENV' to verify credentials are set.`)
         } else {
