@@ -9,16 +9,8 @@ Install and save as a dependency using NPM:
 `npm install @aws/web3-http-provider --save`
 
 ## Example
-
-This example assumes that your AWS IAM-related environment variables have been set
-previously. For example:
-```
-export AWS_ACCESS_KEY_ID=...
-export AWS_SECRET_ACCESS_KEY=...
-
-# if your IAM credentials are temporary:
-export AWS_SESSION_TOKEN=...
-```
+The IAM credentials are checked against a credentials chain.
+If you are executing on AWS EC2, AWS Lambda or AWS ECS, the credentials chain will look for the IAM role attached.
 
 ```
 const Web3 = require('web3');
