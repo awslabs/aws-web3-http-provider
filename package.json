@@ -26,7 +26,16 @@
       "email": "effraga@amazon.com",
       "url": "https://github.com/evertonfraga"
     }
+
   ],
+  "contributors": [
+    {
+     "name": "Pravinchandra Varma",
+     "email": "pravincv@amazon.com",
+     "url": "https://github.com/pravinva"
+    }
+   
+  ], 
   "license": "LGPL-3.0-or-later",
   "dependencies": {
     "aws-sdk": "^2.809.0",
