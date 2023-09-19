@@ -12,6 +12,11 @@
   },
   "authors": [
     {
+      "name": "Rafia Tapia",
+      "email": "taprafia@amazon.com",
+      "url": "https://github.com/amazonrafia"
+    },
+    {
       "name": "Carl Youngblood",
       "email": "cayblood@amazon.com",
       "url": "https://github.com/cayblood"
@@ -29,8 +34,13 @@
   ],
   "license": "LGPL-3.0-or-later",
   "dependencies": {
-    "aws-sdk": "^2.809.0",
-    "web3-providers-http": "^1.3.5",
-    "xhr2": "^0.2.0"
+    "@aws-crypto/sha256-js": "^4.0.0",
+    "@aws-sdk/credential-providers": "^3.352.0",
+    "@aws-sdk/fetch-http-handler": "^3.353.0",
+    "@aws-sdk/protocol-http": "^3.347.0",
+    "@aws-sdk/signature-v4": "^3.347.0",
+    "@aws-sdk/types": "^3.347.0",
+    "web3": "^1.10.0",
+    "xhr2": "^0.2.1"
   }
 }
