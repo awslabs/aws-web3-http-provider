@@ -25,11 +25,12 @@ export AWS_SESSION_TOKEN=...
 ```
 
 ```
-const Web3 = require('web3');
-const AWSHttpProvider = require('@aws/web3-http-provider');
-const endpoint = 'https://nd-NODEID.ethereum.managedblockchain.REGION.amazonaws.com';
-const web3 = new Web3(new AWSHttpProvider(endpoint));
+import Web3 from 'web3';
+import AWSHttpSigV4_v2Provider from './awsHttpSigV4-v2.js';
+const endpoint = process.env.AMB_HTTP_ENDPOINT
+const web3 = new Web3(new AWSHttpSigV4_v2Provider(endpoint));
 web3.eth.getNodeInfo().then(console.log);
+
 ```
 
 You may also provide your credentials directly to the constructor arguments of a new instance of AWSHttpProvider():
@@ -43,7 +44,7 @@ const credentials = {
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 }
 const endpoint = <your Amazon Managed Blockchain HTTP URL>
-const web3 = new Web3(new AWSHttpProvider(endpoint, credentials));
+const web3 = new Web3(new AWSHttpSigV4_v2Provider(endpoint, credentials));
 web3.eth.getNodeInfo().then(console.log);
 ```
 
